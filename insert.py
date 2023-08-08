@@ -13,8 +13,7 @@ def fn_insert_customer_form(i):
     with con:
         cur = con.cursor()
         query = (
-            "INSERT INTO customer (cNameCustomer, cSalesMan, nPhoneNumber, cDescription, dStartOfContract, dCreateCustomer) VALUES (?, ?, ?, ?, ?, ?)")
-        # query = ("INSERT INTO contact (idCustomer, cNameContact, cPhoneContact, cEmailContact, dCreateContact) VALUES (?, ?, ?, ?, ?)")
+            "INSERT INTO tb_Customer (cName, cNameSales, cPhone, cEmail, cDescription, dStartOfContract, dCreate) VALUES (?, ?, ?, ?, ?, ?, ?)")
         cur.execute(query, i)
 
 
@@ -22,5 +21,5 @@ def fn_insert_contact_form(i):
     with con:
         cur = con.cursor()
         query = (
-            "INSERT INTO contact (idCustomer, cNameContact, cPhoneContact, cEmailContact, dCreateContact) VALUES (?, ?, ?, ?, ?)")
+            "INSERT INTO tb_Contact (idCustomer, cNameContact, cPhoneContact, cEmailContact, dCreateContact) VALUES (?, ?, ?, ?, ?)")
         cur.execute(query, i)

@@ -13,7 +13,6 @@ def img_form_customer():
 
     return img_customer_header
 
-
 # ============= Imagem Form =============
 def img_form_contact():
     img_contact_header = Image.open('icons/livro-de-enderecos.png')
@@ -34,7 +33,7 @@ def img_customer():
 
 # ============= Botao Delete =============
 def img_delete():
-    img_del = Image.open('icons/icons8-delete-100.png')
+    img_del = Image.open('icons/icon_customer.png')
     img_del = img_del.resize((17, 17))
     img_del = ImageTk.PhotoImage(img_del)
 

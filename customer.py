@@ -6,11 +6,13 @@ from tkinter import ttk
 # Important Biblioteca TKCalendar
 from tkcalendar import DateEntry
 
-from delete import *
-from icons import *
-from insert import *
-from update import *
-from view import *
+from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
+#from delete import *
+# from insert import *
+# from update import *
+# from view import *
+
+from customersql import cCustomerClass
 
 ################# cores ###############
 co0 = "#000000"  # Preta
@@ -27,8 +29,9 @@ co10 = "#696969"  # DimGray
 
 
 class customer_page:
+    
     def __init__(self, parent, window):
-
+                
         self.tree = None
         self.parent = parent
 
@@ -63,31 +66,37 @@ class customer_page:
 
         # funcao inserir
         def insert():
-            c_name_customer = self.e_name.get()
-            c_sales_man = self.e_salesman.get()
-            n_phone_number = self.e_phonenumber.get()
-            c_description = self.e_description.get()
-            d_start_of_contract = self.e_startcontract.get_date()
-            d_create_customer = date.today()
+            customer = cCustomerClass()
+            
+            customer.idCustomer = self.txt_idcustomer.get()
+            customer.cName = self.txt_name.get()
+            customer.cNameSales = self.txt_salesman.get()
+            customer.cPhone = self.txt_phonenumber.get()
+            customer.cEmail = ""
+            customer.cDescription = self.txt_description.get()
+            customer.dStartOfContract = self.txt_startcontract.get()
+            customer.dCreate = str(date.today())
 
-            lista_inserir = [c_name_customer.upper(), c_sales_man.upper(), n_phone_number.upper(), c_description.upper(),
-                             d_start_of_contract, d_create_customer]
-
-            if self.e_name.get() == '':
+            if (self.txt_name.get() == ''
+                or self.txt_salesman.get() == ''
+                or self.txt_phonenumber.get() == ''
+                or self.txt_startcontract.get() == ''):
                 messagebox.showerror('Erro', 'Preencha todos os campos')
             else:
                 reply = messagebox.askquestion("Gravar", "Confirma que os dados estão corretos?", icon='warning')
                 if reply == 'yes':
-                    fn_insert_customer_form(lista_inserir)
+                    #fn_insert_customer_form(lista_inserir)
+                    customer.InsertCustomer()
                     messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
                 else:
                     messagebox.showinfo('Sucesso', 'Os dados foram descartados')
 
-                self.e_name.delete(0, 'end')
-                self.e_salesman.delete(0, 'end')
-                self.e_phonenumber.delete(0, 'end')
-                self.e_description.delete(0, 'end')
-                self.e_startcontract.delete(0, 'end')
+                self.txt_idcustomer.delete(0, 'end')
+                self.txt_name.delete(0, 'end')
+                self.txt_salesman.delete(0, 'end')
+                self.txt_phonenumber.delete(0, 'end')
+                self.txt_description.delete(0, 'end')
+                self.txt_startcontract.delete(0, 'end')
                 # e_assunto.delete(0, 'end')
 
                 for self.widget in self.frameFooter.winfo_children():
@@ -109,46 +118,51 @@ class customer_page:
                 treev_lista = treev_dicionario['values']
                 valor = treev_lista[0]
 
-                self.e_name.delete(0, 'end')
-                self.e_salesman.delete(0, 'end')
-                self.e_phonenumber.delete(0, 'end')
-                self.e_description.delete(0, 'end')
-                self.e_startcontract.delete(0, 'end')
+                self.txt_idcustomer.delete(0, 'end')
+                self.txt_name.delete(0, 'end')
+                self.txt_salesman.delete(0, 'end')
+                self.txt_phonenumber.delete(0, 'end')
+                self.txt_description.delete(0, 'end')
+                self.txt_startcontract.delete(0, 'end')
                 # e_assunto.delete(0, 'end')
 
-                self.e_name.insert(0, treev_lista[1])
-                self.e_salesman.insert(0, treev_lista[2])
-                self.e_phonenumber.insert(0, treev_lista[3])
-                self.e_description.insert(0, treev_lista[4])
-                self.e_startcontract.insert(0, treev_lista[5])
+                
+                self.txt_idcustomer.insert(0, treev_lista[0])
+                self.txt_name.insert(0, treev_lista[1])
+                self.txt_salesman.insert(0, treev_lista[2])
+                self.txt_phonenumber.insert(0, treev_lista[3])
+                #self.txt_email.insert(0, treev_lista[3])
+                self.txt_description.insert(0, treev_lista[5])
+                self.txt_startcontract.insert(0, treev_lista[6])
 
                 # e_assunto.insert(0, treev_lista[6])
 
                 def update():
-                    c_name_customer = self.e_name.get()
-                    c_sales_man = self.e_salesman.get()
-                    n_phone_number = self.e_phonenumber.get()
-                    c_description = self.e_description.get()
-                    d_start_of_contract = self.e_startcontract.get_date()
-                    d_create_customer = date.today()
+                    customer = cCustomerClass()
+                    
+                    customer.idCustomer = self.txt_idcustomer.get()
+                    customer.cName = self.txt_name.get()
+                    customer.cNameSales = self.txt_salesman.get()
+                    customer.cPhone = self.txt_phonenumber.get()
+                    customer.cEmail = ""
+                    customer.cDescription = self.txt_description.get()
+                    customer.dStartOfContract = self.txt_startcontract.get()
+                    customer.dCreate = str(date.today())
 
-                    lista_atualizar = [c_name_customer.upper(), c_sales_man.upper(), n_phone_number.upper(),
-                                       c_description.upper(), d_start_of_contract, d_create_customer,
-                                       valor]
-
-                    if self.e_name.get() == '':
+                    if self.txt_name.get() == '':
                         messagebox.showerror('Erro', 'Preencha todos os campos')
                     else:
-                        fn_update_customer_form(lista_atualizar)
+                        #fn_update_customer_form(lista_atualizar)
+                        customer.UpdateCustomer()
 
                         messagebox.showinfo(
                             'Sucesso', 'Os dados foram atualizados com sucesso')
 
-                        self.e_name.delete(0, 'end')
-                        self.e_salesman.delete(0, 'end')
-                        self.e_phonenumber.delete(0, 'end')
-                        self.e_description.delete(0, 'end')
-                        self.e_startcontract.delete(0, 'end')
+                        self.txt_name.delete(0, 'end')
+                        self.txt_salesman.delete(0, 'end')
+                        self.txt_phonenumber.delete(0, 'end')
+                        self.txt_description.delete(0, 'end')
+                        self.txt_startcontract.delete(0, 'end')
                         # date.delete(0, 'end')
 
                         for self.widget in self.frameFooter.winfo_children():
@@ -159,11 +173,11 @@ class customer_page:
                 def cancel():
                     self.b_update.destroy()
                     self.b_cancel.destroy()
-                    self.e_name.delete(0, 'end')
-                    self.e_salesman.delete(0, 'end')
-                    self.e_phonenumber.delete(0, 'end')
-                    self.e_description.delete(0, 'end')
-                    self.e_startcontract.delete(0, 'end')
+                    self.txt_name.delete(0, 'end')
+                    self.txt_salesman.delete(0, 'end')
+                    self.txt_phonenumber.delete(0, 'end')
+                    self.txt_description.delete(0, 'end')
+                    self.txt_startcontract.delete(0, 'end')
 
                     for self.widget in self.frameFooter.winfo_children():
                         self.widget.destroy()
@@ -198,6 +212,7 @@ class customer_page:
         # ====================================================================================================================================
         # funcao deletar
         def delete():
+            customer = cCustomerClass()
             try:
                 self.treev_dados = self.tree.focus()
                 treev_dicionario = self.tree.item(self.treev_dados)
@@ -206,7 +221,8 @@ class customer_page:
 
                 reply = messagebox.askquestion("Excluir", "Confirma a exclusão?", icon='warning')
                 if reply == 'yes':
-                    fn_del_customer_form([valor])
+                    #fn_del_customer_form([valor])
+                    customer.DeleteCustomer()
                     # print(valor)
                     messagebox.showinfo(
                         'Sucesso', 'Os dados foram deletados com sucesso!')
@@ -222,45 +238,87 @@ class customer_page:
             except IndexError:
                 messagebox.showerror(
                     'Erro', 'Seleciona um dos dados na tabela')
+                
+
+                            
+        def searchcustomer():
+            customer = cCustomerClass()
+
+            idCustomer = self.txt_idcustomer.get()
+
+            customer.SelectCustomerId(idCustomer)
+
+            self.txt_idcustomer.delete(0, END)
+            self.txt_idcustomer.insert(INSERT, customer.idCustomer)
+
+            self.txt_idcustomer.delete(0, 'end')
+            self.txt_name.delete(0, 'end')
+            self.txt_salesman.delete(0, 'end')
+            self.txt_phonenumber.delete(0, 'end')
+            self.txt_description.delete(0, 'end')
+            self.txt_startcontract.delete(0, 'end')
+
+
+            self.txt_idcustomer.insert(INSERT, customer.idCustomer)
+            self.txt_name.insert(INSERT, customer.cName)
+            self.txt_salesman.insert(INSERT, customer.cNameSales)
+            self.txt_phonenumber.insert(INSERT, customer.cPhone)
+            #self.txt_email.insert(0, treev_lista[3])
+            self.txt_description.insert(INSERT, customer.cDescription)
+            self.txt_startcontract.insert(INSERT, customer.dStartOfContract)
+                        
+            
+            
 
         # ====================================================================================================================================
         # Funcao DELETE - Fim
         # ====================================================================================================================================
 
         # Criando Labels
-        self.lbl_name = Label(self.frameCenter, text=' Nome Cliente:', height=1, anchor=NW, font=('Ivy 10 bold'),
+        # ====================================================================================================================================
+
+        self.lbl_idcustomer = Label(self.frameCenter, text=' Id Cliente:', height=1, anchor=NW, font='Ivy 10 bold',
+                                    bg=co1, fg=co4)
+        self.lbl_idcustomer.place(x=10, y=10)
+
+        self.txt_idcustomer = Entry(self.frameCenter, width=25, justify='left', relief=SOLID)
+        self.txt_idcustomer.place(x=130, y=11)
+        
+        # ====================================================================================================================================
+        
+        self.lbl_name = Label(self.frameCenter, text=' Nome Cliente:', height=1, anchor=NW, font='Ivy 10 bold',
                               bg=co1, fg=co4)
-        self.lbl_name.place(x=10, y=10)
+        self.lbl_name.place(x=10, y=40)
 
-        self.e_name = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
-        self.e_name.place(x=130, y=11)
+        self.txt_name = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        self.txt_name.place(x=130, y=41)
 
         # ====================================================================================================================================
 
-        self.lbl_salesman = Label(self.frameCenter, text=' Vendedor:', height=1, anchor=NW, font=('Ivy 10 bold'),
+        self.lbl_salesman = Label(self.frameCenter, text=' Vendedor:', height=1, anchor=NW, font='Ivy 10 bold',
                                   bg=co1, fg=co4)
-        self.lbl_salesman.place(x=10, y=40)
+        self.lbl_salesman.place(x=10, y=70)
 
-        self.e_salesman = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
-        self.e_salesman.place(x=130, y=41)
-
-        # ====================================================================================================================================
-
-        self.lbl_phonenumber = Label(self.frameCenter, text=' Telefone:', height=1, anchor=NW, font=('Ivy 10 bold'),
-                                     bg=co1, fg=co4)
-        self.lbl_phonenumber.place(x=10, y=70)
-
-        self.e_phonenumber = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
-        self.e_phonenumber.place(x=130, y=71)
+        self.txt_salesman = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        self.txt_salesman.place(x=130, y=71)
 
         # ====================================================================================================================================
 
-        self.lbl_description = Label(self.frameCenter, text=' Descrição:', height=1, anchor=NW, font=('Ivy 10 bold'),
+        self.lbl_phonenumber = Label(self.frameCenter, text=' Telefone:', height=1, anchor=NW, font='Ivy 10 bold',
                                      bg=co1, fg=co4)
-        self.lbl_description.place(x=10, y=100)
+        self.lbl_phonenumber.place(x=10, y=100)
 
-        self.e_description = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
-        self.e_description.place(x=130, y=101)
+        self.txt_phonenumber = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        self.txt_phonenumber.place(x=130, y=101)
+
+        # ====================================================================================================================================
+
+        self.lbl_description = Label(self.frameCenter, text=' Descrição:', height=1, anchor=NW, font='Ivy 10 bold',
+                                     bg=co1, fg=co4)
+        self.lbl_description.place(x=10, y=130)
+
+        self.txt_description = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        self.txt_description.place(x=130, y=131)
 
         # ====================================================================================================================================
 
@@ -272,14 +330,20 @@ class customer_page:
                                        bg=co1,
                                        fg=co4)
 
-        self.lbl_startcontract.place(x=10, y=130)
+        self.lbl_startcontract.place(x=10, y=160)
 
-        self.e_startcontract = DateEntry(self.frameCenter,
+        self.txt_startcontract = DateEntry(self.frameCenter,
                                          width=12,
                                          Background='darkblue',
                                          bordewidth=2,
                                          year=2023)
-        self.e_startcontract.place(x=130, y=131)
+        self.txt_startcontract.place(x=130, y=161)
+
+
+        self.lblmsg = Label(self.frameCenter, text='', height=1, anchor=NW, bg=co1, fg=co4)
+        self.lblmsg["font"] = ("Verdana", "9", "italic")
+        self.lblmsg.place(x=130, y=200)
+        
 
         # ============= Botao Inserir =============
 
@@ -332,7 +396,7 @@ class customer_page:
         # ============= Botao Pesquisa =============
         self.search_img = img_search()
         self.btn_search = Button(self.frameCenter,
-                                 # command=self.clicked,
+                                 command=searchcustomer,
                                  image=self.search_img,
                                  width=95,
                                  text=' Busca'.upper(),
@@ -342,7 +406,7 @@ class customer_page:
                                  font='Ivy 8',
                                  bg=co1,
                                  fg=co0)
-        self.btn_search.place(x=570, y=8)
+        self.btn_search.place(x=331, y=8)
 
         # ============= Botao Contact =============
         self.contact_img = img_contact()
@@ -357,24 +421,27 @@ class customer_page:
                                   font='Ivy 8',
                                   bg=co1,
                                   fg=co0)
-        self.btn_contact.place(x=570, y=38)
+        self.btn_contact.place(x=570, y=8)
 
         # Frame Tree
         # funcao para fn_mostrar
         def fn_mostrar():
+            customer = cCustomerClass()
             # creating a treeview with dual scrollbars
             list_header = [
                 'Id',
                 'Name Customer',
                 'Sales Man',
                 'PhoneNumber',
+                'E-mail',
                 'Description',
                 'Start Contract',
                 'Created'
             ]
 
-            df_list = fn_select_all_customer_form()
-
+            #df_list = fn_select_all_customer_form()
+            df_list = customer.SelectCustomerAll()
+            
             global tree
 
             self.tree = ttk.Treeview(self.frameFooter,
@@ -396,8 +463,8 @@ class customer_page:
             self.hsb.grid(column=0, row=1, sticky='ew')
             self.frameFooter.grid_rowconfigure(0, weight=12)
 
-            hd = ["center", "nw", "nw", "center", "nw", "center", "center"]
-            h = [30, 210, 130, 110, 200, 100, 100]
+            hd = ["center", "nw", "nw", "center", "nw", "center", "center", "center"]
+            h = [30, 200, 110, 100, 170, 100, 80, 70]
             n = 0
 
             for col in list_header:

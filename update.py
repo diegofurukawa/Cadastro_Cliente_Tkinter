@@ -12,7 +12,7 @@ def fn_update_customer_form(i):
     with con:
         cur = con.cursor()
         query = (
-            "UPDATE customer SET cNameCustomer = ?, cSalesMan = ?, nPhoneNumber = ?, cDescription = ?, dStartOfContract = ?, dCreateCustomer = ? WHERE idCustomer = ?")
+            "UPDATE tb_Customer SET cNameCustomer = ?, cSalesMan = ?, nPhoneNumber = ?, cDescription = ?, dStartOfContract = ?, dCreateCustomer = ? WHERE idCustomer = ?")
         cur.execute(query, i)
 
 
@@ -20,5 +20,5 @@ def fn_update_contact_form(i):
     with con:
         cur = con.cursor()
         query = (
-            "UPDATE contact SET cNameContact = ?, cPhoneContact = ?, cEmailContact = ?, dCreateContact = ? WHERE idCustomer = ?")
+            "UPDATE tb_Contact SET cNameContact = ?, cPhoneContact = ?, cEmailContact = ?, dCreateContact = ? WHERE idCustomer = ?")
         cur.execute(query, i)
