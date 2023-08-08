@@ -1,5 +1,6 @@
-from contact import *
-from customer import *
+from tkinter import Tk
+from contact import Contact_Page
+from customer import customer_page
 
 ################# cores ###############
 co0 = "#000000"  # Preta
