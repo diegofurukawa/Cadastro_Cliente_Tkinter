@@ -1,4 +1,5 @@
-.db
+*.db
 venv/
 build/
 dist/
+*.spesc
