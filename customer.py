@@ -7,12 +7,14 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 
 from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
+from customersql import cCustomerClass
+
 #from delete import *
 # from insert import *
 # from update import *
 # from view import *
 
-from customersql import cCustomerClass
+
 
 ################# cores ###############
 co0 = "#000000"  # Preta
@@ -222,7 +224,7 @@ class customer_page:
                 reply = messagebox.askquestion("Excluir", "Confirma a exclusão?", icon='warning')
                 if reply == 'yes':
                     #fn_del_customer_form([valor])
-                    customer.DeleteCustomer()
+                    self.lblmsg["text"] = customer.DeleteCustomer()
                     # print(valor)
                     messagebox.showinfo(
                         'Sucesso', 'Os dados foram deletados com sucesso!')
@@ -246,7 +248,7 @@ class customer_page:
 
             idCustomer = self.txt_idcustomer.get()
 
-            customer.SelectCustomerId(idCustomer)
+            self.lblmsg["text"] = customer.SelectCustomerId(idCustomer)
 
             self.txt_idcustomer.delete(0, END)
             self.txt_idcustomer.insert(INSERT, customer.idCustomer)
@@ -430,7 +432,7 @@ class customer_page:
             # creating a treeview with dual scrollbars
             list_header = [
                 'Id',
-                'Name Customer',
+                'Name Customer', 
                 'Sales Man',
                 'PhoneNumber',
                 'E-mail',
