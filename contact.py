@@ -41,9 +41,9 @@ class ContactPage:
         self.frameHeader.grid(row=0, column=0)
         # self.frameCenter.pack()
 
-        self.app_logo = img_form_contact()
+        self.icone = img_form_contact()
         self.app_logo = Label(self.frameHeader,
-                              image=self.app_logo,
+                              image=self.icone,
                               text=" Cadastro de Contato",
                               width=900, compound=LEFT,
                               relief=RAISED,
@@ -194,12 +194,12 @@ class ContactPage:
                 self.btn_update = Button(self.frameCenter, command=update, text="Confirmar".upper(), width=13, height=1,
                                        bg=co2, fg=co1,
                                        font=('ivy 8 bold'), relief=RAISED, overrelief=RIDGE)
-                self.btn_update.place(x=450, y=102)
+                self.btn_update.place(x=570, y=102)
 
                 self.btn_cancel = Button(self.frameCenter, command=cancel, text="Cancelar".upper(), width=13, height=1,
                                        bg=co7, fg=co1,
                                        font=('ivy 8 bold'), relief=RAISED, overrelief=RIDGE)
-                self.btn_cancel.place(x=450, y=132)
+                self.btn_cancel.place(x=570, y=132)
 
             except IndexError:
                 messagebox.showerror(
@@ -287,7 +287,16 @@ class ContactPage:
             self.txt_PhoneNumber.insert(INSERT, var.cPhone)
             self.txt_Email.insert(INSERT, var.cEmail)
 
+        def search():
+            contact = ContactClass()
 
+            cSearch = self.txt_cSearch.get()
+            contact.cSearch = cSearch
+
+            #self.lblmsg["text"] = customer.SelectCustomerAllSearch()
+            
+            fn_mostrar()
+            
         # ====================================================================================================================================
         # Funcao DELETE - Fim
         # ====================================================================================================================================
@@ -299,13 +308,14 @@ class ContactPage:
                                     bg=co1, fg=co4)
         self.lbl_idcustomer.place(x=10, y=10)
 
-        self.txt_idCustomer = Entry(self.frameCenter, width=15, justify='left', relief=SOLID)
+        self.txt_idCustomer = Entry(self.frameCenter, width=10, justify='left', relief=SOLID)
         self.txt_idCustomer.place(x=130, y=11)
         
-        self.txt_idContact = Entry(self.frameCenter, width=15, justify='left', relief=SOLID)
-        self.txt_idContact.place(x=230, y=11)
-
-
+        self.txt_idContact = Entry(self.frameCenter, width=35, justify='left', relief=SOLID)
+        self.txt_idContact.place(x=220, y=11)
+        
+        self.txt_cSearch = Entry(self.frameCenter, width=35, justify='left', relief=SOLID)
+        self.txt_cSearch.place(x=220, y=11)   
         
         # ====================================================================================================================================
         
@@ -363,7 +373,7 @@ class ContactPage:
                                  font='Ivy 8',
                                  bg=co1,
                                  fg=co0)
-        self.btn_insert.place(x=450, y=8)
+        self.btn_insert.place(x=570, y=8)
 
         # # ============= Botao Refresh =============
 
@@ -379,7 +389,7 @@ class ContactPage:
                                   font='Ivy 8',
                                   bg=co1,
                                   fg=co0)
-        self.btn_refresh.place(x=450, y=38)
+        self.btn_refresh.place(x=570, y=38)
 
         # ============= Botao Delete =============
         self.del_img = img_delete()
@@ -395,12 +405,12 @@ class ContactPage:
                                  bg=co1,
                                  fg=co0)
 
-        self.btn_delete.place(x=450, y=70)
+        self.btn_delete.place(x=570, y=70)
 
         # ============= Botao Pesquisa =============
         self.search_img = img_search()
         self.btn_search = Button(self.frameCenter,
-                                 command=searchcustomer,
+                                 command=search,
                                  image=self.search_img,
                                  width=95,
                                  text=' Busca'.upper(),
@@ -410,7 +420,7 @@ class ContactPage:
                                  font='Ivy 8',
                                  bg=co1,
                                  fg=co0)
-        self.btn_search.place(x=331, y=8)
+        self.btn_search.place(x=450, y=8)
 
         # ============= Botao Contact =============
         self.customer_img = img_customer()
@@ -425,7 +435,7 @@ class ContactPage:
                                   font='Ivy 8',
                                   bg=co1,
                                   fg=co0)
-        self.btn_customer.place(x=570, y=8)
+        self.btn_customer.place(x=770, y=8)
 
         # Frame Tree
         # funcao para fn_mostrar
@@ -441,9 +451,12 @@ class ContactPage:
                             'Email', #cEmail
                             'dCreate' 
                             ]
-
+            
+            cSearch = self.txt_cSearch.get()
+            var.cSearch = cSearch
+            
             #df_list = fn_select_all_customer_form()
-            df_list = var.SelectAll()
+            df_list = var.SelectAllSearch()
             
             global tree
 

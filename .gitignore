@@ -13,3 +13,4 @@ __pycache__/banco.cpython-311.pyc
 __pycache__/customersql.cpython-311.pyc
 __pycache__/contactsql.cpython-311.pyc
 *.pyc
+database.db

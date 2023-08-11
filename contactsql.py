@@ -9,6 +9,7 @@ class ContactClass(object):
                  ,cPhone = ""
                  ,cEmail = ""
                  ,dCreate = ""
+                 ,cSearch = ""
                  ):
 
         self.info = {}
@@ -19,6 +20,7 @@ class ContactClass(object):
         self.cPhone = cPhone
         self.cEmail = cEmail
         self.dCreate = dCreate
+        self.cSearch = cSearch
 
 
     def Insert(self):
@@ -144,3 +146,37 @@ class ContactClass(object):
         except:
             return "Ocorreu um erro na SelectAll do cliente"
         
+    def SelectAllSearch(self):
+        banco = Banco()
+        try:
+            selectalldata = []
+            with banco.conexao:
+                cur = banco.conexao.cursor()
+                query = (
+                            "SELECT DISTINCT "
+                            +"c.idCustomer "
+                            +",c.cName AS cNameCustomer "
+                            +",COALESCE(c2.idContact, '') AS idContact "
+                            +",COALESCE(c2.cName, '') AS cName "
+                            +",COALESCE(c2.cPhone, '') AS cPhone "
+                            +",COALESCE(c2.cEmail, '') AS cEmail "
+                            +",COALESCE(c2.dCreate, '') AS dCreate "
+                            +"FROM tb_customer c "
+                            +"LEFT JOIN tb_contact c2 "
+                            +"ON c2.idCustomer = C.idCustomer "  
+                            + "WHERE (c.idCustomer ||'-'|| c.cName ||'-'|| c.cNameSales) LIKE "
+                            + "'%"
+                            + self.cSearch
+                            + "%'"                                                  
+                         )
+                cur.execute(query)
+
+                rows = cur.fetchall()
+                for row in rows:
+                    selectalldata.append(row)
+
+                return selectalldata
+                #rows.close()
+                #return ""
+        except:
+            return "Ocorreu um erro na SelectAll do cliente"

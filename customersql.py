@@ -10,6 +10,7 @@ class CustomerClass(object):
                  ,cDescription = ""
                  ,dStartOfContract = ""
                  ,dCreate = ""
+                 ,cSearch = ""
                  ):
 
         self.info = {}
@@ -20,7 +21,7 @@ class CustomerClass(object):
         self.cEmail = cEmail
         self.cDescription = cDescription
         self.dStartOfContract = dStartOfContract
-        self.dCreate = dCreate
+        self.cSearch = cSearch
 
 
     def InsertCustomer(self):
@@ -105,7 +106,31 @@ class CustomerClass(object):
         except:
             return "Ocorreu um erro na busca do cliente"
         
-        
+    def SelectCustomerAllSearch(self):
+        banco = Banco()
+        try:
+            selectalldata = []
+            with banco.conexao:
+                cur = banco.conexao.cursor()
+                query = (
+                            "SELECT * FROM tb_Customer "
+                            + "WHERE (idCustomer ||'-'|| cName ||'-'|| cNameSales) LIKE "
+                            + "'%"
+                            + self.cSearch
+                            + "%'"
+                         )
+                cur.execute(query)
+
+                rows = cur.fetchall()
+                for row in rows:
+                    selectalldata.append(row)
+
+                return selectalldata
+                #rows.close()
+                #return ""
+        except:
+            return "Ocorreu um erro na busca do cliente"
+                
         
     def SelectCustomerAll(self):
         banco = Banco()
