@@ -1,8 +1,8 @@
-*.db
+*/.db
 venv/
 build/
 dist/
-*.spesc
+*/.spesc
 */.metadata
 */.venv
 */.build
@@ -14,3 +14,4 @@ __pycache__/customersql.cpython-311.pyc
 __pycache__/contactsql.cpython-311.pyc
 *.pyc
 database.db
+Cadastro.spec
