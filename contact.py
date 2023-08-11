@@ -7,7 +7,7 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 
 from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
-from contactsql import cContactClass
+from contactsql import ContactClass
 
 #from delete import *
 # from insert import *
@@ -30,7 +30,7 @@ co9 = "#F8F8FF"  # GhostWhite
 co10 = "#696969"  # DimGray
 
 
-class Contact_Page:
+class ContactPage:
     
     def __init__(self, parent, window):
                 
@@ -68,7 +68,7 @@ class Contact_Page:
 
         # funcao inserir
         def insert():
-            var = cContactClass()
+            var = ContactClass()
             
             var.idCustomer = self.txt_idCustomer.get()
             var.cName = self.txt_NameContact.get()
@@ -137,7 +137,7 @@ class Contact_Page:
                 # e_assunto.insert(0, treev_lista[6])
 
                 def update():
-                    var = cContactClass()
+                    var = ContactClass()
                     
                     var.idCustomer = self.txt_idCustomer.get()
                     var.cNameCustomer = self.txt_NameCustomer.get()
@@ -216,7 +216,7 @@ class Contact_Page:
         # ====================================================================================================================================
         # funcao deletar
         def delete():
-            var = cContactClass()
+            var = ContactClass()
             try:
                 self.treev_dados = self.tree.focus()
                 treev_dicionario = self.tree.item(self.treev_dados)
@@ -259,7 +259,7 @@ class Contact_Page:
 
                             
         def searchcustomer():
-            var = cContactClass()
+            var = ContactClass()
 
             #idCustomer = self.txt_idCustomer.get()
             idContact = self.txt_idContact.get()
@@ -430,7 +430,7 @@ class Contact_Page:
         # Frame Tree
         # funcao para fn_mostrar
         def fn_mostrar():
-            var = cContactClass()
+            var = ContactClass()
             # creating a treeview with dual scrollbars
             list_header =   [
                             'Id', #idCustomer

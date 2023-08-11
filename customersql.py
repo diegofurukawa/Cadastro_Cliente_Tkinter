@@ -1,6 +1,6 @@
 from banco import Banco
 
-class cCustomerClass(object):
+class CustomerClass(object):
     def __init__(self, 
                  idCustomer = 0
                  ,cName = ""
@@ -81,27 +81,6 @@ class cCustomerClass(object):
             return ""
         except:
             return "Ocorreu um erro na exclusão do usuário"
-
-    def SelectCustomerAllTESTE(self):
-        banco = Banco()
-        try:
-            c = banco.conexao.cursor()
-            c.execute("select * from tb_Customer")
-
-            for linha in c:
-                self.idCustomer = linha[0]
-                self.cName = linha[1]
-                self.cNameSales = linha[2]
-                self.cPhone = linha[3]
-                self.cEmail = linha[4]
-                self.cDescription = linha[5]
-                self.dStartOfContract = linha[6]
-
-            c.close()
-
-            return ""
-        except:
-            return "Ocorreu um erro na busca do cliente"
 
     def SelectCustomerId(self, idCustomer):
         banco = Banco()

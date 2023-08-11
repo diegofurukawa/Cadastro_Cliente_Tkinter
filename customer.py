@@ -7,7 +7,7 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 
 from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
-from customersql import cCustomerClass
+from customersql import CustomerClass
 
 #from delete import *
 # from insert import *
@@ -30,7 +30,7 @@ co9 = "#F8F8FF"  # GhostWhite
 co10 = "#696969"  # DimGray
 
 
-class customer_page:
+class CustomerPage:
     
     def __init__(self, parent, window):
                 
@@ -68,7 +68,7 @@ class customer_page:
 
         # funcao inserir
         def insert():
-            customer = cCustomerClass()
+            customer = CustomerClass()
             
             customer.idCustomer = self.txt_idcustomer.get()
             customer.cName = self.txt_name.get()
@@ -140,7 +140,7 @@ class customer_page:
                 # e_assunto.insert(0, treev_lista[6])
 
                 def update():
-                    customer = cCustomerClass()
+                    customer = CustomerClass()
                     
                     customer.idCustomer = self.txt_idcustomer.get()
                     customer.cName = self.txt_name.get()
@@ -214,7 +214,7 @@ class customer_page:
         # ====================================================================================================================================
         # funcao deletar
         def delete():
-            customer = cCustomerClass()
+            customer = CustomerClass()
             try:
                 self.treev_dados = self.tree.focus()
                 treev_dicionario = self.tree.item(self.treev_dados)
@@ -244,7 +244,7 @@ class customer_page:
 
                             
         def searchcustomer():
-            customer = cCustomerClass()
+            customer = CustomerClass()
 
             idCustomer = self.txt_idcustomer.get()
 
@@ -428,7 +428,7 @@ class customer_page:
         # Frame Tree
         # funcao para fn_mostrar
         def fn_mostrar():
-            customer = cCustomerClass()
+            customer = CustomerClass()
             # creating a treeview with dual scrollbars
             list_header = [
                 'Id',

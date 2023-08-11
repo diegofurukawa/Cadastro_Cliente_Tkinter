@@ -1,6 +1,6 @@
 from banco import Banco
 
-class cContactClass(object):
+class ContactClass(object):
     def __init__(self, 
                  idCustomer = 0
                  ,cNameCustomer = ""

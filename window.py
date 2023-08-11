@@ -1,6 +1,6 @@
 from tkinter import Tk
-from contact import Contact_Page
-from customer import customer_page
+from contact import ContactPage
+from customer import CustomerPage
 
 ################# cores ###############
 co0 = "#000000"  # Preta
@@ -22,18 +22,18 @@ class MainGui:
         self.root = root
         self.root.title(title)
         self.root.geometry(geometry)
-        self.PageShow = customer_page(self, self.root)
+        self.PageShow = CustomerPage(self, self.root)
 
     def changepage(self, page):
         self.page = page
 
         if self.page == 0:
             # del self.pageshow
-            self.PageShow = customer_page(self, self.root)
+            self.PageShow = CustomerPage(self, self.root)
 
         if self.page == 1:
             # del self.pageshow
-            self.PageShow = Contact_Page(self, self.root)
+            self.PageShow = ContactPage(self, self.root)
 
 
 def main():
