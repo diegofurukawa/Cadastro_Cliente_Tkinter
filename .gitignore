@@ -3,3 +3,9 @@ venv/
 build/
 dist/
 *.spesc
+/.metadata
+/.venv
+/.build
+/.dist
+/.__pycache__
+Teste.spec
