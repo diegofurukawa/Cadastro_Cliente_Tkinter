@@ -8,13 +8,12 @@ from tkcalendar import DateEntry
 
 from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
 from customersql import CustomerClass
+from janela import ConfigWindow
 
 #from delete import *
 # from insert import *
 # from update import *
 # from view import *
-
-
 
 ################# cores ###############
 co0 = "#000000"  # Preta
@@ -33,11 +32,12 @@ co10 = "#696969"  # DimGray
 class CustomerPage:
     
     def __init__(self, parent, window):
+        wd = ConfigWindow()
                 
         self.tree = None
         self.parent = parent
 
-        self.frameHeader = Frame(window, width=899, height=50, bg=co1, relief=FLAT)
+        self.frameHeader = Frame(window, width=wd.width, height=50, bg=co1, relief=FLAT)
         self.frameHeader.grid(row=0, column=0)
         # self.frameCenter.pack()
 
@@ -45,7 +45,7 @@ class CustomerPage:
         self.app_logo = Label(self.frameHeader,
                               image=self.icone,
                               text=" Cadastro de Cliente",
-                              width=900, compound=LEFT,
+                              width=wd.width, compound=LEFT,
                               relief=RAISED,
                               anchor=NW,
                               font=('Verdana 20 bold'),
@@ -53,11 +53,11 @@ class CustomerPage:
                               fg=co4)
         self.app_logo.place(x=0, y=0)
 
-        self.frameCenter = Frame(window, width=899, height=265, bg=co1, pady=20, relief=FLAT)
+        self.frameCenter = Frame(window, width=wd.width, height=300, bg=co1, pady=20, relief=FLAT)
         self.frameCenter.grid(row=1, column=0, pady=1, padx=0, sticky=NSEW)
         # self.frameCenter.pack()
 
-        self.frameFooter = Frame(window, width=899, height=700, bg=co1, pady=20, relief=FLAT)
+        self.frameFooter = Frame(window, width=wd.width, height=900, bg=co1, pady=20, relief=FLAT)
         self.frameFooter.grid(row=2, column=0, pady=0, padx=1, sticky=NSEW)
 
         # Funcoes
@@ -66,29 +66,52 @@ class CustomerPage:
         # funcao INSERT - Inicio
         # ====================================================================================================================================
 
+        def CustomerGet():
+            customer = CustomerClass()
+            
+            customer.idCustomer = self.txt_idcustomer.get()
+            customer.cName = self.txt_name.get().upper()
+            customer.cNameSales = self.txt_salesman.get().upper()
+            customer.cPhone = self.txt_phonenumber.get()
+            customer.cEmail = self.txt_email.get().lower()
+            customer.cDescription = self.txt_description.get()
+            customer.dStartOfContract = self.txt_startcontract.get()
+            customer.nContractDuration = self.txt_nContractDuration.get()
+            customer.dCreate = str(date.today())  
+
+  
+            
+                  
         # funcao inserir
         def insert():
             customer = CustomerClass()
             
             customer.idCustomer = self.txt_idcustomer.get()
-            customer.cName = self.txt_name.get()
-            customer.cNameSales = self.txt_salesman.get()
+            customer.cName = self.txt_name.get().upper()
+            customer.cNameSales = self.txt_salesman.get().upper()
             customer.cPhone = self.txt_phonenumber.get()
-            customer.cEmail = ""
+            customer.cEmail = self.txt_email.get().lower()
             customer.cDescription = self.txt_description.get()
             customer.dStartOfContract = self.txt_startcontract.get()
+            customer.nContractDuration = self.txt_nContractDuration.get()
             customer.dCreate = str(date.today())
+            
 
+                
             if (self.txt_name.get() == ''
                 or self.txt_salesman.get() == ''
                 or self.txt_phonenumber.get() == ''
-                or self.txt_startcontract.get() == ''):
+                or self.txt_email.get() == ''
+                or self.txt_startcontract.get() == ''
+                or self.txt_nContractDuration.get() == ''
+                ):
                 messagebox.showerror('Erro', 'Preencha todos os campos')
             else:
                 reply = messagebox.askquestion("Gravar", "Confirma que os dados estão corretos?", icon='warning')
                 if reply == 'yes':
                     #fn_insert_customer_form(lista_inserir)
                     customer.InsertCustomer()
+                    
                     messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
                 else:
                     messagebox.showinfo('Sucesso', 'Os dados foram descartados')
@@ -97,8 +120,10 @@ class CustomerPage:
                 self.txt_name.delete(0, 'end')
                 self.txt_salesman.delete(0, 'end')
                 self.txt_phonenumber.delete(0, 'end')
+                self.txt_email.delete(0, 'end')
                 self.txt_description.delete(0, 'end')
                 self.txt_startcontract.delete(0, 'end')
+                self.txt_nContractDuration.delete(0, 'end')
                 # e_assunto.delete(0, 'end')
 
                 for self.widget in self.frameFooter.winfo_children():
@@ -124,6 +149,7 @@ class CustomerPage:
                 self.txt_name.delete(0, 'end')
                 self.txt_salesman.delete(0, 'end')
                 self.txt_phonenumber.delete(0, 'end')
+                self.txt_email.delete(0, 'end')
                 self.txt_description.delete(0, 'end')
                 self.txt_startcontract.delete(0, 'end')
                 # e_assunto.delete(0, 'end')
@@ -133,9 +159,11 @@ class CustomerPage:
                 self.txt_name.insert(0, treev_lista[1])
                 self.txt_salesman.insert(0, treev_lista[2])
                 self.txt_phonenumber.insert(0, treev_lista[3])
+                self.txt_email.insert(0, treev_lista[4])
                 #self.txt_email.insert(0, treev_lista[3])
                 self.txt_description.insert(0, treev_lista[5])
                 self.txt_startcontract.insert(0, treev_lista[6])
+                self.txt_nContractDuration.insert(0, treev_lista[7])
 
                 # e_assunto.insert(0, treev_lista[6])
 
@@ -143,12 +171,14 @@ class CustomerPage:
                     customer = CustomerClass()
                     
                     customer.idCustomer = self.txt_idcustomer.get()
-                    customer.cName = self.txt_name.get()
-                    customer.cNameSales = self.txt_salesman.get()
+                    customer.cName = self.txt_name.get().upper()
+                    customer.cNameSales = self.txt_salesman.get().upper()
                     customer.cPhone = self.txt_phonenumber.get()
-                    customer.cEmail = ""
+                    customer.cEmail = self.txt_email.get().lower()
                     customer.cDescription = self.txt_description.get()
                     customer.dStartOfContract = self.txt_startcontract.get()
+                    customer.nContractDuration = self.txt_nContractDuration.get()
+                    
                     customer.dCreate = str(date.today())
 
                     if self.txt_name.get() == '':
@@ -159,12 +189,17 @@ class CustomerPage:
 
                         messagebox.showinfo(
                             'Sucesso', 'Os dados foram atualizados com sucesso')
-
+                        self.btn_update.destroy()
+                        self.btn_cancel.destroy()
+                        
+                        self.txt_idcustomer.delete(0, 'end')
                         self.txt_name.delete(0, 'end')
                         self.txt_salesman.delete(0, 'end')
                         self.txt_phonenumber.delete(0, 'end')
+                        self.txt_email.delete(0, 'end')
                         self.txt_description.delete(0, 'end')
                         self.txt_startcontract.delete(0, 'end')
+                        self.txt_nContractDuration.delete(0, 'end')
                         # date.delete(0, 'end')
 
                         for self.widget in self.frameFooter.winfo_children():
@@ -175,11 +210,15 @@ class CustomerPage:
                 def cancel():
                     self.btn_update.destroy()
                     self.btn_cancel.destroy()
+                    
+                    self.txt_idcustomer.delete(0, 'end')
                     self.txt_name.delete(0, 'end')
                     self.txt_salesman.delete(0, 'end')
                     self.txt_phonenumber.delete(0, 'end')
+                    self.txt_email.delete(0, 'end')
                     self.txt_description.delete(0, 'end')
                     self.txt_startcontract.delete(0, 'end')
+                    self.txt_nContractDuration.delete(0, 'end')
 
                     for self.widget in self.frameFooter.winfo_children():
                         self.widget.destroy()
@@ -257,17 +296,21 @@ class CustomerPage:
             self.txt_name.delete(0, 'end')
             self.txt_salesman.delete(0, 'end')
             self.txt_phonenumber.delete(0, 'end')
+            self.txt_email.delete(0, 'end')
             self.txt_description.delete(0, 'end')
             self.txt_startcontract.delete(0, 'end')
+            self.txt_nContractDuration.delete(0, 'end')
 
 
             self.txt_idcustomer.insert(INSERT, customer.idCustomer)
             self.txt_name.insert(INSERT, customer.cName)
             self.txt_salesman.insert(INSERT, customer.cNameSales)
             self.txt_phonenumber.insert(INSERT, customer.cPhone)
+            self.txt_email.insert(INSERT, customer.cPhone)
             #self.txt_email.insert(0, treev_lista[3])
             self.txt_description.insert(INSERT, customer.cDescription)
             self.txt_startcontract.insert(INSERT, customer.dStartOfContract)
+            self.txt_nContractDuration.insert(INSERT, customer.nContractDuration)
                         
             
         def search():
@@ -346,13 +389,13 @@ class CustomerPage:
 
         # ====================================================================================================================================
 
-        self.lbl_description = Label(self.frameCenter, text=' Descrição:', height=1, anchor=NW, font='Ivy 10 bold',
+        self.lbl_email = Label(self.frameCenter, text=' E-mail:', height=1, anchor=NW, font='Ivy 10 bold',
                                      bg=co1, fg=co4)
-        self.lbl_description.place(x=10, y=130)
+        self.lbl_email.place(x=10, y=130)
 
-        self.txt_description = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
-        self.txt_description.place(x=130, y=131)
-
+        self.txt_email = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        self.txt_email.place(x=130, y=131)
+                
         # ====================================================================================================================================
 
         self.lbl_startcontract = Label(self.frameCenter,
@@ -366,17 +409,45 @@ class CustomerPage:
         self.lbl_startcontract.place(x=10, y=160)
 
         self.txt_startcontract = DateEntry(self.frameCenter,
-                                         width=12,
+                                         width=15,
                                          Background='darkblue',
                                          bordewidth=2,
                                          year=2023)
         self.txt_startcontract.place(x=130, y=161)
+        
+        # ====================================================================================================================================
+
+        self.lbl_nContractDuration = Label(self.frameCenter,
+                                       text='Duração:',
+                                       height=1,
+                                       anchor=NW,
+                                       font=('Ivy 10 bold'),
+                                       bg=co1,
+                                       fg=co4)
+
+        self.lbl_nContractDuration.place(x=270, y=160)
+
+        self.txt_nContractDuration = Entry(self.frameCenter, width=13, justify='left', relief=SOLID)
+        self.txt_nContractDuration.place(x=350, y=160)
+        
+        
+        # ====================================================================================================================================
+
+        self.lbl_description = Label(self.frameCenter, text=' Descrição:', height=1, anchor=NW, font='Ivy 10 bold',
+                                     bg=co1, fg=co4)
+        self.lbl_description.place(x=10, y=190)
+
+        self.txt_description = Entry(self.frameCenter, width=50, justify='left', relief=SOLID)
+        #self.txt_description = Text(self.frameCenter, width=100, height=5, bg=co1, fg=co4)
+        self.txt_description.place(x=130, y=191)
 
 
+        # ====================================================================================================================================
+        
         self.lblmsg = Label(self.frameCenter, text='', height=1, anchor=NW, bg=co1, fg=co4)
         self.lblmsg["font"] = ("Verdana", "9", "italic")
-        self.lblmsg.place(x=130, y=200)
-        
+        self.lblmsg.place(x=770, y=200) #(x=130, y=200)
+                
 
         # ============= Botao Inserir =============
 
@@ -469,6 +540,7 @@ class CustomerPage:
                 'E-mail',
                 'Description',
                 'Start Contract',
+                'Duration',
                 'Created'
             ]
 
@@ -480,10 +552,12 @@ class CustomerPage:
             
             global tree
 
-            self.tree = ttk.Treeview(self.frameFooter,
-                                     selectmode="extended",
-                                     columns=list_header,
-                                     show="headings")
+            self.tree = ttk.Treeview(self.frameFooter
+                                     ,selectmode="extended"
+                                     ,columns=list_header
+                                     ,show="headings"
+                                     ,height=17
+                                     )
 
             # vertical scrollbar
             self.vsb = ttk.Scrollbar(
@@ -497,10 +571,32 @@ class CustomerPage:
             self.tree.grid(column=0, row=0, sticky='nsew')
             self.vsb.grid(column=1, row=0, sticky='ns')
             self.hsb.grid(column=0, row=1, sticky='ew')
-            self.frameFooter.grid_rowconfigure(0, weight=12)
+            self.frameFooter.grid_rowconfigure(0, weight=25)
 
-            hd = ["center", "nw", "nw", "center", "nw", "center", "center", "center"]
-            h = [30, 200, 110, 100, 170, 100, 80, 70]
+            #'Id','Name Customer', 'Sales Man','PhoneNumber','E-mail','Description','Start Contract','Duration','Created'
+            hd = [
+                  "nw"      #Id
+                  ,"nw"     #Name Customer'
+                  ,"nw"     #Sales Man
+                  ,"nw"     #PhoneNumber
+                  ,"nw"     #E-mail
+                  ,"nw"     #Description
+                  ,"nw"     #Start Contract
+                  ,"nw"     #Duration
+                  ,"nw"     #Created
+                  ]
+            h = [
+                 30      #Id
+                ,300     #Name Customer'
+                ,110     #Sales Man
+                ,100     #PhoneNumber
+                ,170     #E-mail
+                ,300     #Description
+                ,80     #Start Contract
+                ,70     #Duration
+                ,70     #Created
+                ]
+            
             n = 0
 
             for col in list_header:

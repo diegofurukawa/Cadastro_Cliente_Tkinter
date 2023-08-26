@@ -1,6 +1,7 @@
 from tkinter import Tk
 from contact import ContactPage
 from customer import CustomerPage
+from janela import ConfigWindow
 
 ################# cores ###############
 co0 = "#000000"  # Preta
@@ -14,7 +15,6 @@ co7 = "#ef5350"  # vermelha
 co8 = "#263238"  # + verde
 co9 = "#F8F8FF"  # GhostWhite
 co10 = "#696969"  # DimGray
-
 
 class MainGui:
     def __init__(self, root, title, geometry):
@@ -35,12 +35,10 @@ class MainGui:
             # del self.pageshow
             self.PageShow = ContactPage(self, self.root)
 
-
+        
+        
 def main():
     root = Tk()
-    MainGui(root, "Main Window", "900x600")
+    w = ConfigWindow()
+    MainGui(root, w.title, w.width+'x'+w.height)
     root.mainloop()
-
-
-if __name__ == '__main__':
-    main()

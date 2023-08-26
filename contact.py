@@ -8,6 +8,7 @@ from tkcalendar import DateEntry
 
 from icons import img_form_customer, img_form_contact, img_customer, img_delete, img_refresh, img_insert, img_search, img_save, img_contact
 from contactsql import ContactClass
+from janela import ConfigWindow
 
 #from delete import *
 # from insert import *
@@ -33,11 +34,12 @@ co10 = "#696969"  # DimGray
 class ContactPage:
     
     def __init__(self, parent, window):
+        wd = ConfigWindow()
                 
         self.tree = None
         self.parent = parent
 
-        self.frameHeader = Frame(window, width=899, height=50, bg=co1, relief=FLAT)
+        self.frameHeader = Frame(window, width=wd.width, height=50, bg=co1, relief=FLAT)
         self.frameHeader.grid(row=0, column=0)
         # self.frameCenter.pack()
 
@@ -45,7 +47,7 @@ class ContactPage:
         self.app_logo = Label(self.frameHeader,
                               image=self.icone,
                               text=" Cadastro de Contato",
-                              width=900, compound=LEFT,
+                              width=wd.width, compound=LEFT,
                               relief=RAISED,
                               anchor=NW,
                               font=('Verdana 20 bold'),
@@ -53,11 +55,11 @@ class ContactPage:
                               fg=co4)
         self.app_logo.place(x=0, y=0)
 
-        self.frameCenter = Frame(window, width=899, height=265, bg=co1, pady=20, relief=FLAT)
+        self.frameCenter = Frame(window, width=wd.width, height=265, bg=co1, pady=20, relief=FLAT)
         self.frameCenter.grid(row=1, column=0, pady=1, padx=0, sticky=NSEW)
         # self.frameCenter.pack()
 
-        self.frameFooter = Frame(window, width=899, height=700, bg=co1, pady=20, relief=FLAT)
+        self.frameFooter = Frame(window, width=wd.width, height=700, bg=co1, pady=20, relief=FLAT)
         self.frameFooter.grid(row=2, column=0, pady=0, padx=1, sticky=NSEW)
 
         # Funcoes
@@ -71,9 +73,9 @@ class ContactPage:
             var = ContactClass()
             
             var.idCustomer = self.txt_idCustomer.get()
-            var.cName = self.txt_NameContact.get()
+            var.cName = self.txt_NameContact.get().upper()
             var.cPhone = self.txt_PhoneNumber.get()
-            var.cEmail = self.txt_Email.get()
+            var.cEmail = self.txt_Email.get().lower()
             var.dCreate = str(date.today())
 
             if (self.txt_NameContact.get() == ''
@@ -143,9 +145,9 @@ class ContactPage:
                     var.cNameCustomer = self.txt_NameCustomer.get()
                     
                     var.idContact = self.txt_idContact.get()
-                    var.cName = self.txt_NameContact.get()
+                    var.cName = self.txt_NameContact.get().upper()
                     var.cPhone = self.txt_PhoneNumber.get()
-                    var.cEmail = self.txt_Email.get()                                    
+                    var.cEmail = self.txt_Email.get().lower()                                    
 
                     if (self.txt_NameContact.get() == ''
                         or self.txt_PhoneNumber.get() == ''
@@ -460,10 +462,12 @@ class ContactPage:
             
             global tree
 
-            self.tree = ttk.Treeview(self.frameFooter,
-                                     selectmode="extended",
-                                     columns=list_header,
-                                     show="headings")
+            self.tree = ttk.Treeview(self.frameFooter
+                                     ,selectmode="extended"
+                                     ,columns=list_header
+                                     ,show="headings"
+                                     ,height=19
+                                     )
 
             # vertical scrollbar
             self.vsb = ttk.Scrollbar(

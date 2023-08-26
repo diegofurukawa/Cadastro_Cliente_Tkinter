@@ -15,3 +15,4 @@ __pycache__/contactsql.cpython-311.pyc
 *.pyc
 database.db
 Cadastro.spec
+*.db

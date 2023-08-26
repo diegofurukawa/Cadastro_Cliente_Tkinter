@@ -27,6 +27,7 @@ class Banco():
                     ,cEmail TEXT
                     ,cDescription TEXT
                     ,dStartOfContract DATE
+                    ,nContractDuration TEXT
                     ,dCreate DATE
                     )""")
                 

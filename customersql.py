@@ -11,6 +11,7 @@ class CustomerClass(object):
                  ,dStartOfContract = ""
                  ,dCreate = ""
                  ,cSearch = ""
+                 ,nContractDuration = ""
                  ):
 
         self.info = {}
@@ -22,6 +23,7 @@ class CustomerClass(object):
         self.cDescription = cDescription
         self.dStartOfContract = dStartOfContract
         self.cSearch = cSearch
+        self.nContractDuration = nContractDuration
 
 
     def InsertCustomer(self):
@@ -30,13 +32,14 @@ class CustomerClass(object):
 
             c = banco.conexao.cursor()
 
-            c.execute("insert into tb_Customer (cName, cNameSales, cPhone, cEmail, cDescription, dStartOfContract, dCreate) values ('"
+            c.execute("insert into tb_Customer (cName, cNameSales, cPhone, cEmail, cDescription, dStartOfContract, nContractDuration, dCreate) values ('"
                         + self.cName + "', '" 
                         + self.cNameSales + "', '" 
                         + self.cPhone + "', '" 
                         + self.cEmail + "', '" 
                         + self.cDescription + "', '" 
                         + self.dStartOfContract + "', '" 
+                        + self.nContractDuration + "', '" 
                         + self.dCreate + "')")
 
             banco.conexao.commit()
@@ -57,6 +60,7 @@ class CustomerClass(object):
                     + "', cEmail = '" + self.cEmail 
                     + "', cDescription = '" + self.cDescription 
                     + "', dStartOfContract = '" + self.dStartOfContract 
+                    + "', nContractDuration = '" + self.nContractDuration 
                    
                     + "' where idCustomer = " + self.idCustomer 
                     + " ")
@@ -88,7 +92,7 @@ class CustomerClass(object):
         try:
             c = banco.conexao.cursor()
             c.execute(
-                "select idCustomer,cName,cNameSales,cPhone,cEmail,cDescription,dStartOfContract,dCreate from tb_Customer where idCustomer = " + idCustomer + " ")
+                "select idCustomer,cName,cNameSales,cPhone,cEmail,cDescription,dStartOfContract,nContractDuration,dCreate from tb_Customer where idCustomer = " + idCustomer + " ")
 
             for linha in c:
                 self.idCustomer = linha[0]
@@ -98,7 +102,8 @@ class CustomerClass(object):
                 self.cEmail = linha[4]
                 self.cDescription = linha[5]
                 self.dStartOfContract = linha[6]
-                self.dCreate = linha[7]
+                self.nContractDuration = linha[7]
+                self.dCreate = linha[8]
 
             c.close()
 

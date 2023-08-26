@@ -21,8 +21,8 @@ class ContactClass(object):
         self.cEmail = cEmail
         self.dCreate = dCreate
         self.cSearch = cSearch
-
-
+        
+        
     def Insert(self):
         banco = Banco()
         try:
